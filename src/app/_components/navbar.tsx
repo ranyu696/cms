@@ -3,7 +3,7 @@ import { NavButtons } from './NavButtons'
 import { Categories } from './Categories'
 import {Divider} from "@nextui-org/react";
 
-const Navbar = () => {
+const NavBar = () => {
   return (
     <nav className="mx-auto w-full shadow-md">
       <div className="container mx-auto px-2">
@@ -15,4 +15,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default NavBar

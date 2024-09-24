@@ -3,13 +3,13 @@ import { Suspense } from 'react'
 import Banner from '../_components/banner'
 import BottomLinks from '../_components/BottomLinks'
 import BottomTags from '../_components/BottomTags'
-import Heads from '../_components/heads'
+import Heads from '../_components/Heads'
 import IconAds from '../_components/IconAds'
 import PostHogPageView from '../_components/posthog/PostHogPageView'
 import { PHProvider } from '../_components/posthog/providers'
 import TopLinks from '../_components/TopLinks'
 import TopTags from '../_components/TopTags'
-import Navbar from '../_components/Navbar'
+import NavBar from '../_components/NavBar'
 
 export default function MainLayout({
   children,
@@ -26,7 +26,7 @@ export default function MainLayout({
           <header className="w-full p-2">
             <Heads />
             <Banner />
-            <Navbar />
+            <NavBar />
             <IconAds />
             <TopLinks />
             <TopTags />
