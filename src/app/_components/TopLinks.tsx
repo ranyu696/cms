@@ -6,8 +6,8 @@ const TopLinks = async () => {
   const links = await api.friendLink.getTopLinks()
 
   return (
-    <div className="mx-auto w-full p-2">
-      <div className="grid grid-cols-4 gap-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
+    <div className="mx-auto w-full">
+      <div className="grid grid-cols-4 gap-1 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
         {links.map((link: FriendLink) => (
           <TrackableLink key={link.id} href={link.url} name={link.name} />
         ))}

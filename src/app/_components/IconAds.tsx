@@ -18,7 +18,7 @@ const IconAds = async () => {
       .sort((a, b) => a.order - b.order) || []
 
   return (
-    <div className="mx-auto w-full px-2">
+    <div className="mx-auto w-full">
       <Card className="p-2">
         <div className="grid grid-cols-5 gap-2 md:grid-cols-8 lg:grid-cols-10">
           {icons.map((icon) => (
