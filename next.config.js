@@ -8,20 +8,7 @@ await import("./src/env.js");
 const config = {
     reactStrictMode: true,
     images: {
-      remotePatterns: [
-        {
-          protocol: 'http',
-          hostname: 'localhost',
-          port: '',
-          pathname: '/**',
-        },
-        {
-          protocol: 'https',
-          hostname: 'qpic.ocdn.stream',
-          port: '',
-          pathname: '/**',
-        },
-      ],
+      unoptimized: true,
     },
     experimental: {
         serverComponentsExternalPackages: ['sharp'],

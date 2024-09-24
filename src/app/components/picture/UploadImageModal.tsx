@@ -86,8 +86,6 @@ export default function UploadImageModal({
 
         const result = (await response.json()) as PictureImage
         console.log(`文件 ${file.name} 上传成功，路径: ${result.path}`)
-        toast.success(`${file.name} 上传成功`)
-
         setUploadProgress((prev) => ({ ...prev, [file.name]: 100 }))
         setTotalProgress((prev) => prev + (1 / files.length) * 100)
       } catch (error) {
