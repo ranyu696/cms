@@ -59,8 +59,6 @@ export default async function Home() {
 
   return (
     <>
-      <h1 className="mb-8 text-center text-4xl font-bold">欢迎来到内容中心</h1>
-
       <section className="mb-8">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-2xl font-semibold">最新视频</h2>
