@@ -6,7 +6,7 @@ const TopTags = async () => {
   const tags = await api.tag.getTopTags()
 
   return (
-    <div className="w-full mt-2">
+    <div className="mt-2 w-full">
       <div className="flex flex-wrap justify-start gap-2">
         {tags.map((tag) => (
           <Link

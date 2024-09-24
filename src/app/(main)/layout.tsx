@@ -3,10 +3,9 @@ import { Suspense } from 'react'
 import Banner from '../_components/banner'
 import BottomLinks from '../_components/BottomLinks'
 import BottomTags from '../_components/BottomTags'
-import Category from '../_components/Category'
 import Heads from '../_components/heads'
 import IconAds from '../_components/IconAds'
-import Navbar from '../_components/navbar'
+import Navbar from '../_components/Navbar'
 import PostHogPageView from '../_components/posthog/PostHogPageView'
 import { PHProvider } from '../_components/posthog/providers'
 import TopLinks from '../_components/TopLinks'
@@ -28,7 +27,7 @@ export default function MainLayout({
             <Heads />
             <Banner />
             <Navbar />
-            <Category />
+
             <IconAds />
             <TopLinks />
             <TopTags />

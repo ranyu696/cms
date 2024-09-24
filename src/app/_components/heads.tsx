@@ -62,6 +62,7 @@ const Heads = async () => {
         </Link>
       </NavbarContent>
     </Navbar>
+    
   )
 }
 
