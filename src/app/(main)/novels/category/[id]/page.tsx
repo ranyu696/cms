@@ -1,6 +1,6 @@
 import { type Metadata } from 'next'
 import Link from 'next/link'
-import ComicCard from '~/app/_components/Card/ComicCard'
+import NovelCard from '~/app/_components/Card/NovelCard'
 import PaginationWrapper from '~/app/_components/Pagination'
 import { api } from '~/trpc/server'
 
@@ -11,11 +11,12 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const categoryId = parseInt(params.id)
   const category = await api.category.getById({ id: categoryId })
-  const siteName = ((await api.systemSettings.getOne({
-    category: 'general',
-    key: 'siteName',
-  })) as string) || '小新漫画'
-  const comicsData = await api.comic.getAll({
+  const siteName =
+    ((await api.systemSettings.getOne({
+      category: 'basic',
+      key: 'siteName',
+    })) as string) || '小新小说'
+  const novelsData = await api.novel.getAll({
     categoryId,
     page: 1,
     perPage: 1,
@@ -24,12 +25,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!category) {
     return {
       title: `分类未找到 - ${siteName}`,
-      description: '抱歉，我们找不到您请求的漫画分类。',
+      description: '抱歉，我们找不到您请求的小说分类。',
     }
   }
 
-  const title = `${category.name} 漫画 - ${siteName}`
-  const description = `浏览 ${category.name} 分类下的精彩漫画。当前有 ${comicsData.total} 部漫画等待您的探索。`
+  const title = `${category.name} 小说 - ${siteName}`
+  const description = `浏览 ${category.name} 分类下的精彩小说。当前有 ${novelsData.totalCount} 本小说等待您的探索。`
 
   return {
     title,
@@ -42,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ComicCategoryPage({
+export default async function NovelCategoryPage({
   params,
   searchParams,
 }: {
@@ -53,9 +54,9 @@ export default async function ComicCategoryPage({
   const page = parseInt(searchParams.page ?? '1')
   const perPage = 20
 
-  const [categoryData, comicsData] = await Promise.all([
+  const [categoryData, novelsData] = await Promise.all([
     api.category.getById({ id: categoryId }),
-    api.comic.getAll({ categoryId, page, perPage }),
+    api.novel.getAll({ categoryId, page, perPage }),
   ])
 
   if (!categoryData) {
@@ -63,19 +64,21 @@ export default async function ComicCategoryPage({
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="mb-8 text-3xl font-bold">{categoryData.name}</h1>
+    <div className="m-2 mx-auto">
+      <h1 className="mb-4 text-2xl font-bold sm:text-3xl">
+        {categoryData.name}
+      </h1>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {comicsData.comics.map((comic) => (
-          <Link key={comic.id} href={`/comics/${comic.id}`}>
-            <ComicCard key={comic.id} comic={comic} />
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+        {novelsData.novels.map((novel) => (
+          <Link key={novel.id} href={`/novels/${novel.id}`}>
+            <NovelCard key={novel.id} novel={novel} />
           </Link>
         ))}
       </div>
 
       <div className="mt-8 flex justify-center">
-        <PaginationWrapper totalPages={comicsData.totalPages} />
+        <PaginationWrapper totalPages={novelsData.totalPages} />
       </div>
     </div>
   )

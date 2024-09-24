@@ -63,7 +63,7 @@ export default async function VideosHomePage() {
       const videosData = await api.video.getAll({
         categoryId: category.id,
         page: 1,
-        perPage: 4,
+        perPage: 8,
         isActive: true, // 只获取已上架（激活）的视频
       })
       return {
@@ -83,7 +83,6 @@ export default async function VideosHomePage() {
             <h2 className="text-2xl font-semibold">{category.name}</h2>
             <Link href={`/videos/category/${category.id}`}>
               <Button
-                as="a"
                 color="primary"
                 variant="ghost"
                 endContent={<ChevronRight size={16} />}
@@ -93,7 +92,7 @@ export default async function VideosHomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {category.videos.map((video) => (
               <Link key={video.id} href={`/videos/${video.id}`}>
                 <VideoCard key={video.id} video={video} />

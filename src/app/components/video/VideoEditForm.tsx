@@ -9,36 +9,39 @@ import {
   ModalHeader,
   Select,
   SelectItem,
-  Switch,
   Textarea,
 } from '@nextui-org/react'
-import { type Category, CategoryType, type Video } from '@prisma/client'
+import { type Video } from '@prisma/client'
 import { Link, Upload } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { api } from '~/trpc/react'
-import { processAndUploadImage } from '~/utils/video/uploadUtils'
 
-interface VideoFormProps {
+interface VideoEditFormProps {
   isOpen: boolean
   onClose: () => void
-  video?: Video | null
+  video: Video
   onSuccess: () => void
 }
 
-export const VideoForm: React.FC<VideoFormProps> = ({
+// 定义一个新的类型，用于表单数据
+type VideoFormData = Omit<Video, 'id' | 'createdAt' | 'updatedAt' | 'views'>
+
+export const VideoEditForm: React.FC<VideoEditFormProps> = ({
   isOpen,
   onClose,
   video,
   onSuccess,
 }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<VideoFormData>({
     title: '',
-    description: '',
+    description: null,
     coverUrl: '',
     playUrl: '',
-    categoryId: '',
-    shouldSync: false,
+    categoryId: 0,
+    isActive: true,
+    playerType: 'default',
+    externalId: null,
   })
   const [imageUploadType, setImageUploadType] = useState<'local' | 'remote'>(
     'remote',
@@ -46,50 +49,44 @@ export const VideoForm: React.FC<VideoFormProps> = ({
   const [previewImage, setPreviewImage] = useState<string | null>(null)
 
   const { data: categories } = api.category.getByType.useQuery({
-    type: CategoryType.Video,
+    type: 'Video',
   })
 
-  const createVideoMutation = api.video.create.useMutation()
   const updateVideoMutation = api.video.update.useMutation()
-  const uploadCoverMutation = api.video.uploadCover.useMutation()
 
   useEffect(() => {
     if (video) {
       setFormData({
         title: video.title,
-        description: video.description ?? '',
-        coverUrl: video.coverUrl ?? '',
+        description: video.description,
+        coverUrl: video.coverUrl,
         playUrl: video.playUrl,
-        categoryId: video.categoryId.toString(),
-        shouldSync: false,
+        categoryId: video.categoryId,
+        isActive: video.isActive,
+        playerType: video.playerType,
+        externalId: video.externalId,
       })
-      setPreviewImage(video.coverUrl ?? null)
-    } else {
-      resetForm()
+      setPreviewImage(video.coverUrl)
     }
-  }, [video, isOpen])
-
-  const resetForm = () => {
-    setFormData({
-      title: '',
-      description: '',
-      coverUrl: '',
-      playUrl: '',
-      categoryId: '',
-      shouldSync: false,
-    })
-    setPreviewImage(null)
-    setImageUploadType('remote')
-  }
+  }, [video])
 
   const handleImageUpload = async (file: File) => {
     try {
-      const result = await processAndUploadImage(
-        file,
-        uploadCoverMutation.mutateAsync,
-      )
-      setFormData((prev) => ({ ...prev, coverUrl: result.coverUrl })) // Extract coverUrl
-      setPreviewImage(result.coverUrl) // Extract coverUrl
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/upload/video', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error('上传失败')
+      }
+
+      const data = (await response.json()) as Video
+      setFormData((prev) => ({ ...prev, coverUrl: data.coverUrl }))
+      setPreviewImage(data.coverUrl)
       toast.success('封面图片上传成功')
     } catch (error) {
       console.error('图片上传失败:', error)
@@ -104,20 +101,8 @@ export const VideoForm: React.FC<VideoFormProps> = ({
 
   const handleSubmit = async () => {
     try {
-      const data = {
-        title: formData.title,
-        description: formData.description,
-        coverUrl: formData.coverUrl,
-        playUrl: formData.playUrl,
-        categoryId: parseInt(formData.categoryId),
-      }
-      if (video) {
-        await updateVideoMutation.mutateAsync({ id: video.id, ...data })
-        toast.success('视频更新成功')
-      } else {
-        await createVideoMutation.mutateAsync(data)
-        toast.success('视频创建成功')
-      }
+      await updateVideoMutation.mutateAsync({ id: video.id, ...formData })
+      toast.success('视频更新成功')
       onSuccess()
       onClose()
     } catch (error) {
@@ -127,9 +112,15 @@ export const VideoForm: React.FC<VideoFormProps> = ({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="3xl">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="3xl"
+      isDismissable={false}
+      isKeyboardDismissDisabled={true}
+    >
       <ModalContent>
-        <ModalHeader>{video ? '编辑视频' : '创建新视频'}</ModalHeader>
+        <ModalHeader>编辑视频</ModalHeader>
         <ModalBody>
           <Input
             label="标题"
@@ -141,9 +132,9 @@ export const VideoForm: React.FC<VideoFormProps> = ({
           />
           <Textarea
             label="描述"
-            value={formData.description}
+            value={formData.description ?? ''}
             onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
+              setFormData({ ...formData, description: e.target.value || null })
             }
           />
           <Input
@@ -197,26 +188,20 @@ export const VideoForm: React.FC<VideoFormProps> = ({
               />
             </div>
           )}
-          <div className="flex items-center space-x-2">
-            <Switch
-              isSelected={formData.shouldSync}
-              onValueChange={(checked) =>
-                setFormData((prev) => ({ ...prev, shouldSync: checked }))
-              }
-            />
-            <span>同步图片到本地</span>
-          </div>
           <Select
             label="分类"
-            selectedKeys={[formData.categoryId]}
+            selectedKeys={[formData.categoryId.toString()]}
             onSelectionChange={(keys) => {
               const selectedKey = Array.from(keys)[0] as string
-              setFormData((prev) => ({ ...prev, categoryId: selectedKey }))
+              setFormData((prev) => ({
+                ...prev,
+                categoryId: parseInt(selectedKey),
+              }))
             }}
             required
           >
             {categories ? (
-              categories.map((category: Category) => (
+              categories.map((category) => (
                 <SelectItem key={category.id} value={category.id.toString()}>
                   {category.name}
                 </SelectItem>
@@ -233,7 +218,7 @@ export const VideoForm: React.FC<VideoFormProps> = ({
             取消
           </Button>
           <Button color="primary" onPress={() => void handleSubmit()}>
-            {video ? '更新' : '创建'}
+            更新
           </Button>
         </ModalFooter>
       </ModalContent>

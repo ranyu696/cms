@@ -1,10 +1,10 @@
 // src/app/search/page.tsx
+import { Progress } from '@nextui-org/react'
 import { type Metadata } from 'next'
+import { Suspense } from 'react'
 import SearchFilters from '~/app/_components/Search/SearchFilters'
 import SearchResults from '~/app/_components/Search/SearchResults'
 import { api } from '~/trpc/server'
-import { Suspense } from 'react'
-import { Progress } from '@nextui-org/react'
 
 type Props = {
   searchParams: {
@@ -20,7 +20,7 @@ export async function generateMetadata({
   const query = searchParams.q || ''
   const siteName =
     ((await api.systemSettings.getOne({
-      category: 'general',
+      category: 'basic',
       key: 'siteName',
     })) as string) ?? '小新网站'
 
@@ -41,13 +41,19 @@ export default async function SearchPage({ searchParams }: Props) {
     <div className="container mx-auto p-4">
       <h1 className="mb-4 text-2xl font-bold">搜索结果: {query}</h1>
       <div className="flex flex-col">
-       <Suspense fallback={<div><Progress
-      size="sm"
-      isIndeterminate
-      aria-label="Loading..."
-      className="max-w-md"
-    /></div>}>
-        <SearchFilters currentType={type} />
+        <Suspense
+          fallback={
+            <div>
+              <Progress
+                size="sm"
+                isIndeterminate
+                aria-label="Loading..."
+                className="max-w-md"
+              />
+            </div>
+          }
+        >
+          <SearchFilters currentType={type} />
         </Suspense>
         <SearchResults results={results} />
       </div>

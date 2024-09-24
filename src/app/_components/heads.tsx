@@ -12,7 +12,7 @@ import { api } from '~/trpc/server'
 
 async function getlogoUrl() {
   const logoUrl = await api.systemSettings.getOne({
-    category: 'general',
+    category: 'basic',
     key: 'logoUrl',
   })
   return (logoUrl as string) || '/favicon.ico' // 默认值

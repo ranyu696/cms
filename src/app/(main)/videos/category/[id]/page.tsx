@@ -1,6 +1,7 @@
 // app/videos/category/[id]/page.tsx
 import { type Video } from '@prisma/client'
 import { type Metadata } from 'next'
+import Link from 'next/link'
 import VideoCard from '~/app/_components/Card/VideoCard'
 import PaginationWrapper from '~/app/_components/Pagination'
 import { api } from '~/trpc/server'
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // 获取网站名称
   const siteName =
     ((await api.systemSettings.getOne({
-      category: 'general',
+      category: 'basic',
       key: 'siteName',
     })) as string) || '小新视频'
 
@@ -52,11 +53,15 @@ export default async function VideoCategoryPage({
 
   return (
     <div className="container mx-auto">
-      <h1 className="mb-8 text-4xl font-bold">{categoryData?.name} 视频</h1>
+      <h1 className="mb-4 text-2xl font-bold sm:text-3xl">
+        {categoryData.name}
+      </h1>
 
       <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {videosData.videos.map((video: Video) => (
-          <VideoCard key={video.id} video={video} />
+          <Link key={video.id} href={`/videos/${video.id}`}>
+            <VideoCard key={video.id} video={video} />
+          </Link>
         ))}
       </div>
 

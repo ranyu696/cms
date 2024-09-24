@@ -13,7 +13,7 @@ import { createQueryClient } from './query-client'
 let clientQueryClientSingleton: QueryClient | undefined = undefined
 const getQueryClient = () => {
   if (typeof window === 'undefined') {
-    // Server: always make a new query client
+    // 服务器：总是创建一个新的查询客户端
     return createQueryClient()
   }
   // 浏览器：使用单例模式来保持相同的查询客户端

@@ -1,10 +1,9 @@
-import React from 'react';
-import { api } from '~/trpc/server';
-import TrackableLink from './Trackable/TrackableLink';
-import { type FriendLink } from '@prisma/client';
+import { type FriendLink } from '@prisma/client'
+import { api } from '~/trpc/server'
+import TrackableLink from './Trackable/TrackableLink'
 
 const TopLinks = async () => {
-  const links = await api.friendLink.getTopLinks();
+  const links = await api.friendLink.getTopLinks()
 
   return (
     <div className="mx-auto w-full p-2">
@@ -14,7 +13,7 @@ const TopLinks = async () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TopLinks;
+export default TopLinks

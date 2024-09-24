@@ -26,7 +26,8 @@ import { Edit, Play, Plus, Search, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import DeleteConfirmModal from '~/app/components/shared/DeleteConfirmModal'
-import { VideoForm } from '~/app/components/video/VideoForm'
+import { VideoCreateForm } from '~/app/components/video/VideoCreateForm'
+import { VideoEditForm } from '~/app/components/video/VideoEditForm'
 import VideoPlayerModal from '~/app/components/video/VideoPlayerModal'
 import { api } from '~/trpc/react'
 
@@ -39,9 +40,14 @@ export default function VideosPage() {
   )
 
   const {
-    isOpen: isFormOpen,
-    onOpen: onFormOpen,
-    onClose: onFormClose,
+    isOpen: isCreateFormOpen,
+    onOpen: onCreateFormOpen,
+    onClose: onCreateFormClose,
+  } = useDisclosure()
+  const {
+    isOpen: isEditFormOpen,
+    onOpen: onEditFormOpen,
+    onClose: onEditFormClose,
   } = useDisclosure()
   const {
     isOpen: isDeleteModalOpen,
@@ -86,13 +92,12 @@ export default function VideosPage() {
   }
 
   const handleAddVideo = () => {
-    setEditingVideo(null)
-    onFormOpen()
+    onCreateFormOpen()
   }
 
   const handleEditVideo = (video: Video) => {
     setEditingVideo(video)
-    onFormOpen()
+    onEditFormOpen()
   }
 
   const handleDeleteVideo = (video: Video) => {
@@ -268,7 +273,7 @@ export default function VideosPage() {
                 </TableCell>
                 <TableCell>{video.title}</TableCell>
                 <TableCell>{video.category?.name}</TableCell>
-                <TableCell>{video.totalPlays}</TableCell>
+                <TableCell>{video.views}</TableCell>
                 <TableCell>
                   <Switch
                     defaultSelected
@@ -312,20 +317,36 @@ export default function VideosPage() {
         </Table>
       )}
 
-      <VideoForm
-        isOpen={isFormOpen}
-        onClose={onFormClose}
-        video={editingVideo}
+      <VideoCreateForm
+        isOpen={isCreateFormOpen}
+        onClose={onCreateFormClose}
         onSuccess={async () => {
           try {
             await videosQuery.refetch()
-            onFormClose()
+            onCreateFormClose()
           } catch (error) {
             console.error('刷新视频列表失败:', error)
             toast.error('刷新视频列表失败')
           }
         }}
       />
+
+      {editingVideo && (
+        <VideoEditForm
+          isOpen={isEditFormOpen}
+          onClose={onEditFormClose}
+          video={editingVideo}
+          onSuccess={async () => {
+            try {
+              await videosQuery.refetch()
+              onEditFormClose()
+            } catch (error) {
+              console.error('刷新视频列表失败:', error)
+              toast.error('刷新视频列表失败')
+            }
+          }}
+        />
+      )}
 
       <DeleteConfirmModal
         isOpen={isDeleteModalOpen}

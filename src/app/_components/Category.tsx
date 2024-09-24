@@ -42,13 +42,16 @@ const CategoryGroup = ({
 }) => {
   return (
     <div className="mb-2">
-      <h2 className="mb-2 text-xl font-bold">{getTypeTitle(type)}</h2>
+      <h2 className="mb-2 text-sm font-bold">{getTypeTitle(type)}</h2>
       <div className="grid grid-cols-5 gap-2 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
         {categories.map((category) => (
-          <Link key={category.id} href={`/${getTypeUrl(type)}/category/${category.id}`}>
+          <Link
+            key={category.id}
+            href={`/${getTypeUrl(type)}/category/${category.id}`}
+          >
             <Button
               key={category.id}
-              size="md"
+              size="sm"
               color="primary"
               variant="bordered"
               className="w-full"

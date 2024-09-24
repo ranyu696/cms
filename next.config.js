@@ -8,8 +8,15 @@ await import("./src/env.js");
 const config = {
     reactStrictMode: true,
     images: {
-        domains: ['localhost'], // 添加您的域名
-      },
+      remotePatterns: [
+        {
+          protocol: 'http',
+          hostname: 'localhost',
+          port: '',
+          pathname: '/**',
+        },
+      ],
+    },
     experimental: {
         serverComponentsExternalPackages: ['sharp'],
       },

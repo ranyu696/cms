@@ -22,7 +22,7 @@ const IconAds = async () => {
       <Card className="p-2">
         <div className="grid grid-cols-5 gap-2 md:grid-cols-8 lg:grid-cols-10">
           {icons.map((icon) => (
-            <Link href={icon.linkUrl} key={icon.id} passHref>
+            <Link href={icon.linkUrl} key={icon.id}>
               <div className="flex flex-col items-center">
                 <Avatar
                   src={icon.imagePath}

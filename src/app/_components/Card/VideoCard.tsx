@@ -1,6 +1,4 @@
-import { Card, CardBody, CardHeader, Image } from '@nextui-org/react'
-import { Play } from 'lucide-react'
-import Link from 'next/link'
+import { Card, CardFooter, Image } from '@nextui-org/react'
 import React from 'react'
 
 interface VideoCardProps {
@@ -14,28 +12,19 @@ interface VideoCardProps {
 
 const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
   return (
-    <Card isPressable className="max-w-[300px]">
-      {' '}
-      {/* 调整最大宽度 */}
-      <Link href={`/videos/${video.id}`}>
-        <CardHeader className="relative aspect-video p-0">
-          <Image
-            src={video.coverUrl ?? '/placeholder-video.jpg'}
-            alt={video.title}
-            radius="lg"
-            classNames={{
-              wrapper: 'w-full h-full',
-              img: 'object-cover w-full h-full',
-            }}
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Play size={48} className="text-white opacity-80" />
-          </div>
-        </CardHeader>
-        <CardBody className="py-2">
-          <h4 className="line-clamp-2 text-small font-bold">{video.title}</h4>
-        </CardBody>
-      </Link>
+    <Card isPressable radius="sm" className="max-w-[300px]">
+      <Image
+        isZoomed
+        isBlurred
+        src={video.coverUrl ?? '/placeholder-video.jpg'}
+        alt={video.title}
+        radius="md"
+        width={400}
+        className="aspect-video size-full"
+      />
+      <CardFooter className="p-[-0.25rem]">
+        <h4 className="line-clamp-2 text-small font-bold">{video.title}</h4>
+      </CardFooter>
     </Card>
   )
 }

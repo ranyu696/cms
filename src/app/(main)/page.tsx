@@ -59,98 +59,125 @@ export default async function Home() {
 
   return (
     <>
-      <h1 className="mb-2 text-center text-4xl font-bold">欢迎来到内容中心</h1>
-      <section className="mb-4">
-        <h2 className="mb-4 text-2xl font-semibold">最新视频</h2>
+      <h1 className="mb-8 text-center text-4xl font-bold">欢迎来到内容中心</h1>
+
+      <section className="mb-8">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">最新视频</h2>
+          <Link href="/videos">
+            <Button color="primary" size="sm">
+              查看更多视频
+            </Button>
+          </Link>
+        </div>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-4">
           {latestVideos.videos.map((video: Video) => (
-            <VideoCard key={video.id} video={video} />
+            <Link key={video.id} href={`/videos/${video.id}`}>
+              <VideoCard key={video.id} video={video} />
+            </Link>
           ))}
         </div>
-        <div className="mt-4 text-center">
-          <Link href="/videos">
-            <Button color="primary">查看更多视频</Button>
+      </section>
+
+      <section className="mb-8">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">国产精品视频</h2>
+          <Link href="/videos/category/1">
+            <Button color="primary" size="sm">
+              查看更多国产精品视频
+            </Button>
           </Link>
         </div>
-      </section>
-      <section className="mb-4">
-        <h2 className="mb-4 text-2xl font-semibold">国产精品视频</h2>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-4">
           {category1Videos.videos.map((video: Video) => (
-            <VideoCard key={video.id} video={video} />
+            <Link key={video.id} href={`/videos/${video.id}`}>
+              <VideoCard key={video.id} video={video} />
+            </Link>
           ))}
         </div>
-        <div className="mt-4 text-center">
-          <Link href="/videos/category/1">
-            <Button color="primary">查看更多国产精品视频</Button>
+      </section>
+
+      <section className="mb-8">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">反差骚货视频</h2>
+          <Link href="/videos/category/4">
+            <Button color="primary" size="sm">
+              查看更多反差骚货视频
+            </Button>
           </Link>
         </div>
-      </section>
-      <section className="mb-4">
-        <h2 className="mb-4 text-2xl font-semibold">反差骚货视频</h2>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-4">
           {category4Videos.videos.map((video: Video) => (
-            <VideoCard key={video.id} video={video} />
+            <Link key={video.id} href={`/videos/${video.id}`}>
+              <VideoCard key={video.id} video={video} />
+            </Link>
           ))}
         </div>
-        <div className="mt-4 text-center">
-          <Link href="/videos/category/4">
-            <Button color="primary">查看更多反差骚货视频</Button>
+      </section>
+
+      <section className="mb-8">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">白虎萝莉视频</h2>
+          <Link href="/videos/category/5">
+            <Button color="primary" size="sm">
+              查看更多白虎萝莉视频
+            </Button>
           </Link>
         </div>
-      </section>
-      <section className="mb-4">
-        <h2 className="mb-4 text-2xl font-semibold">白虎萝莉视频</h2>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-4">
           {category5Videos.videos.map((video: Video) => (
-            <VideoCard key={video.id} video={video} />
+            <Link key={video.id} href={`/videos/${video.id}`}>
+              <VideoCard key={video.id} video={video} />
+            </Link>
           ))}
         </div>
-        <div className="mt-4 text-center">
-          <Link href="/videos/category/5">
-            <Button color="primary">查看更多白虎萝莉视频</Button>
+      </section>
+
+      <section className="mb-12">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">最新图片</h2>
+          <Link href="/images">
+            <Button color="secondary" size="sm">
+              浏览更多图片
+            </Button>
           </Link>
         </div>
-      </section>
-      <section className="mb-12">
-        <h2 className="mb-4 text-2xl font-semibold">最新图片</h2>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           {latestImages.pictures.map((picture: Picture) => (
             <PictureCard key={picture.id} picture={picture} />
           ))}
         </div>
-        <div className="mt-4 text-center">
-          <Link href="/images">
-            <Button color="secondary">浏览更多图片</Button>
-          </Link>
-        </div>
       </section>
 
       <section className="mb-12">
-        <h2 className="mb-4 text-2xl font-semibold">热门小说</h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">热门小说</h2>
+          <Link href="/novels">
+            <Button color="success" size="sm">
+              发现更多小说
+            </Button>
+          </Link>
+        </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
           {latestNovels.novels.map((novel: Novel) => (
             <NovelCard key={novel.id} novel={novel} />
           ))}
         </div>
-        <div className="mt-4 text-center">
-          <Link href="/novels">
-            <Button color="success">发现更多小说</Button>
-          </Link>
-        </div>
       </section>
 
       <section className="mb-12">
-        <h2 className="mb-4 text-2xl font-semibold">精选漫画</h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">精选漫画</h2>
+          <Link href="/comics">
+            <Button color="warning" size="sm">
+              阅读更多漫画
+            </Button>
+          </Link>
+        </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {latestComics.comics.map((comic: Comic) => (
             <ComicCard key={comic.id} comic={comic} />
           ))}
-        </div>
-        <div className="mt-4 text-center">
-          <Link href="/comics">
-            <Button color="warning">阅读更多漫画</Button>
-          </Link>
         </div>
       </section>
     </>

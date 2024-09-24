@@ -1,4 +1,5 @@
 import { type Metadata } from 'next'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import VideoCard from '~/app/_components/Card/VideoCard'
 import VideoPlayer from '~/app/_components/VideoPlayer'
@@ -10,7 +11,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const video = await api.video.getById(videoId)
   const siteName =
     ((await api.systemSettings.getOne({
-      category: 'general',
+      category: 'basic',
       key: 'siteName',
     })) as string) ?? '小新视频'
 
@@ -55,7 +56,11 @@ export default async function VideoPlayPage({
     <div className="container mx-auto p-2">
       <h1 className="mb-4 text-2xl font-bold md:text-3xl">{video.title}</h1>
       <div className="mb-4 aspect-video">
-        <VideoPlayer src={video.playUrl} poster={video.coverUrl ?? undefined} />
+        <VideoPlayer
+          id={videoId}
+          src={video.playUrl}
+          poster={video.coverUrl ?? undefined}
+        />
       </div>
       <p className="mb-6 text-sm md:text-base">{video.description}</p>
 
@@ -64,14 +69,18 @@ export default async function VideoPlayPage({
           <h2 className="mt-4 text-xl font-bold">相关推荐</h2>
           <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
             {relatedVideos.map((relatedVideo) => (
-              <VideoCard key={relatedVideo.id} video={relatedVideo} />
+              <Link key={relatedVideo.id} href={`/videos/${relatedVideo.id}`}>
+                <VideoCard key={relatedVideo.id} video={relatedVideo} />
+              </Link>
             ))}
           </div>
         </div>
         <h2 className="mt-6 text-2xl font-bold">精选推荐</h2>
         <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
           {featuredVideos.map((featuredVideo) => (
-            <VideoCard key={featuredVideo.id} video={featuredVideo} />
+            <Link key={featuredVideo.id} href={`/videos/${featuredVideo.id}`}>
+              <VideoCard key={featuredVideo.id} video={featuredVideo} />
+            </Link>
           ))}
         </div>
       </section>
