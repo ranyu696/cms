@@ -54,7 +54,7 @@ export default async function Home() {
   })
   const latestVideos = await api.video.getAll({ page: 1, perPage: 4 })
   const latestImages = await api.picture.getAll({ page: 1, perPage: 4 })
-  const latestNovels = await api.novel.getAll({ page: 1, perPage: 4 })
+  const latestNovels = await api.novel.getAll({ page: 1, perPage: 6 })
   const latestComics = await api.comic.getAll({ page: 1, perPage: 4 })
 
   return (

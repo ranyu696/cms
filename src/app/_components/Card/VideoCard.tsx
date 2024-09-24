@@ -20,12 +20,12 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
             width={320}
             radius="lg"
             isZoomed
-            className="object-cover h-auto"
+            className="h-auto object-cover"
             
           />
         </CardHeader>
         <CardBody className="py-1">
-          <h4 className="line-clamp-2  text-xs md:text-sm font-normal md:font-bold">{video.title}</h4>
+          <h4 className="line-clamp-2  text-xs font-normal md:text-sm md:font-bold">{video.title}</h4>
         </CardBody>
     </Card>
   )

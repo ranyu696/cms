@@ -36,7 +36,7 @@ export default async function NovelsHomePage() {
       const novelsData = await api.novel.getAll({
         categoryId: category.id,
         page: 1,
-        perPage: 4,
+        perPage: 12,
         isActive: true,
       })
       return {

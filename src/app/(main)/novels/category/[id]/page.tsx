@@ -52,7 +52,7 @@ export default async function NovelCategoryPage({
 }) {
   const categoryId = parseInt(params.id)
   const page = parseInt(searchParams.page ?? '1')
-  const perPage = 20
+  const perPage = 24
 
   const [categoryData, novelsData] = await Promise.all([
     api.category.getById({ id: categoryId }),

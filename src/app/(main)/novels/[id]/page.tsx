@@ -49,7 +49,7 @@ export default async function NovelDetailPage({
 }) {
   const novelId = parseInt(params.id)
   const novel = await api.novel.getById({ id: novelId })
-  const relatedNovels = await api.novel.getRelatedNovels({ novelId, limit: 4 })
+  const relatedNovels = await api.novel.getRelatedNovels({ novelId, limit: 12 })
 
   if (!novel) return notFound()
 
