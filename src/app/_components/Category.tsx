@@ -52,8 +52,8 @@ const CategoryGroup = ({
             <Button
               key={category.id}
               size="sm"
-              color="primary"
-              variant="bordered"
+              color="secondary"
+              variant="shadow"
               className="w-full"
             >
               {category.name}

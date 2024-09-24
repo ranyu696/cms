@@ -1,4 +1,4 @@
-import { Chip } from '@nextui-org/react'
+import { Button } from '@nextui-org/react'
 import Link from 'next/link'
 import { api } from '~/trpc/server'
 
@@ -13,9 +13,9 @@ const TopTags = async () => {
             href={tag.url ?? `/search?q=${encodeURIComponent(tag.name)}`}
             key={tag.id}
           >
-            <Chip variant="faded" color="danger" className="cursor-pointer">
+            <Button variant="solid" color="warning" className="cursor-pointer">
               {tag.name}
-            </Chip>
+            </Button>
           </Link>
         ))}
       </div>

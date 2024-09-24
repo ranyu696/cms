@@ -22,8 +22,8 @@ const TrackableLink: React.FC<TrackableLinkProps> = ({ href, name }) => {
   return (
     <Link href={href} onClick={handleClick}>
       <Button
-        color="primary"
-        variant="flat"
+        color="secondary"
+        variant="shadow"
         className="flex size-full flex-col items-center justify-center p-2"
         target="_blank"
       >
