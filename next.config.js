@@ -15,6 +15,12 @@ const config = {
           port: '',
           pathname: '/**',
         },
+        {
+          protocol: 'https',
+          hostname: 'qpic.ocdn.stream',
+          port: '',
+          pathname: '/**',
+        },
       ],
     },
     experimental: {

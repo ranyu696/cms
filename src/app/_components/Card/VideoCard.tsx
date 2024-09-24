@@ -1,4 +1,4 @@
-import { Card, CardFooter, Image } from '@nextui-org/react'
+import { Card, CardBody, CardHeader, Image } from '@nextui-org/react'
 import React from 'react'
 
 interface VideoCardProps {
@@ -12,19 +12,21 @@ interface VideoCardProps {
 
 const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
   return (
-    <Card isPressable radius="sm" className="max-w-[300px]">
-      <Image
-        isZoomed
-        isBlurred
-        src={video.coverUrl ?? '/placeholder-video.jpg'}
-        alt={video.title}
-        radius="md"
-        width={400}
-        className="aspect-video size-full"
-      />
-      <CardFooter className="p-[-0.25rem]">
-        <h4 className="line-clamp-2 text-small font-bold">{video.title}</h4>
-      </CardFooter>
+    <Card isPressable>
+        <CardHeader className="aspect-video p-0">
+          <Image
+            src={video.coverUrl ?? '/https://via.placeholder.com/300x200'}
+            alt={video.title}
+            width={320}
+            radius="lg"
+            isZoomed
+            className="object-cover h-auto"
+            
+          />
+        </CardHeader>
+        <CardBody className="py-1">
+          <h4 className="line-clamp-2  text-xs md:text-sm font-normal md:font-bold">{video.title}</h4>
+        </CardBody>
     </Card>
   )
 }

@@ -57,7 +57,7 @@ export default async function VideoCategoryPage({
         {categoryData.name}
       </h1>
 
-      <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {videosData.videos.map((video: Video) => (
           <Link key={video.id} href={`/videos/${video.id}`}>
             <VideoCard key={video.id} video={video} />

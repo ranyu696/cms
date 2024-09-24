@@ -144,7 +144,9 @@ export default async function Home() {
         </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           {latestImages.pictures.map((picture: Picture) => (
+              <Link key={picture.id} href={`/pictures/${picture.id}`}>
             <PictureCard key={picture.id} picture={picture} />
+            </Link>
           ))}
         </div>
       </section>
@@ -160,7 +162,9 @@ export default async function Home() {
         </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
           {latestNovels.novels.map((novel: Novel) => (
+             <Link key={novel.id} href={`/novels/${novel.id}`}>
             <NovelCard key={novel.id} novel={novel} />
+            </Link>
           ))}
         </div>
       </section>
@@ -176,7 +180,9 @@ export default async function Home() {
         </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {latestComics.comics.map((comic: Comic) => (
+              <Link key={comic.id} href={`/comics/${comic.id}`} passHref>
             <ComicCard key={comic.id} comic={comic} />
+            </Link>
           ))}
         </div>
       </section>
