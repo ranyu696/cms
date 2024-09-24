@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -31,7 +31,7 @@ export async function GET(
 }
 
 function getContentType(fileType: string): string {
-  const types: { [key: string]: string } = {
+  const types: Record<string, string> = {
     'png': 'image/png',
     'jpg': 'image/jpeg',
     'jpeg': 'image/jpeg',
@@ -39,5 +39,5 @@ function getContentType(fileType: string): string {
     'webp': 'image/webp',
     // 添加其他文件类型
   };
-  return types[fileType] || 'application/octet-stream';
+  return types[fileType] ?? 'application/octet-stream';
 }
