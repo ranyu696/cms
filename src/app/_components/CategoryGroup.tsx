@@ -18,20 +18,6 @@ const getTypeUrl = (type: CategoryType): string => {
   }
 }
 
-const getTypeTitle = (type: CategoryType) => {
-  switch (type) {
-    case CategoryType.Video:
-      return '视频'
-    case CategoryType.Novel:
-      return '小说'
-    case CategoryType.Picture:
-      return '图片'
-    case CategoryType.Comic:
-      return '漫画'
-    default:
-      return type
-  }
-}
 
 export const CategoryGroup = ({
     type,
@@ -42,7 +28,6 @@ export const CategoryGroup = ({
   }) => {
     return (
       <div className="mb-2">
-        <h2 className="mb-2 text-sm font-bold">{getTypeTitle(type)}</h2>
         <div className="grid grid-cols-5 gap-2 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8">
           {categories.map((category) => (
             <Link
